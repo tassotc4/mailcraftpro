@@ -161,7 +161,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // ---- Sidebar ----
 function renderSidebar() {
-  const remaining = getRemainingEmails(currentUser);
   const plan = currentUser.plan;
   const isUnlimited = (plan === 'pro' || plan === 'pro-annual') && currentUser.proToken;
   const isStarter = plan === 'starter' && currentUser.proToken;
