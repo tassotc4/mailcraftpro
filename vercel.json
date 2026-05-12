@@ -18,6 +18,26 @@
       "dest": "/js/$1"
     },
     {
+      "src": "/sitemap.xml",
+      "dest": "/sitemap.xml"
+    },
+    {
+      "src": "/robots.txt",
+      "dest": "/robots.txt"
+    },
+    {
+      "src": "/signup",
+      "dest": "/signup.html"
+    },
+    {
+      "src": "/login",
+      "dest": "/login.html"
+    },
+    {
+      "src": "/app",
+      "dest": "/app.html"
+    },
+    {
       "src": "/",
       "dest": "/index.html"
     }

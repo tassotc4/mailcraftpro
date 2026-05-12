@@ -145,36 +145,65 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const proToken = localStorage.getItem('mcp_pending_pro_token');
   if (proToken) {
+    const plan = localStorage.getItem('mcp_pending_plan') || 'pro';
     localStorage.removeItem('mcp_pending_pro_token');
-    currentUser = upgradeUserWithToken(proToken);
+    localStorage.removeItem('mcp_pending_plan');
+    currentUser = upgradeUserWithToken(proToken, plan);
     renderSidebar();
-    showToast('🎉 You\'re now on Pro! Unlimited emails unlocked.', 'success');
+    const msgs = {
+      starter: '🎉 You\'re now on Starter! 100 emails/month unlocked.',
+      pro: '🎉 You\'re now on Pro! Unlimited emails unlocked.',
+      'pro-annual': '🎉 You\'re now on Pro Annual! Unlimited emails unlocked.',
+    };
+    showToast(msgs[plan] || '🎉 Plan upgraded!', 'success');
   }
 });
 
 // ---- Sidebar ----
 function renderSidebar() {
   const remaining = getRemainingEmails(currentUser);
-  const isPro = currentUser.plan === 'pro' && currentUser.proToken;
-  const limit = currentUser.emailsLimit || 3;
-  const used = currentUser.emailsUsed || 0;
+  const plan = currentUser.plan;
+  const isUnlimited = (plan === 'pro' || plan === 'pro-annual') && currentUser.proToken;
+  const isStarter = plan === 'starter' && currentUser.proToken;
+  const remaining = getRemainingEmails(currentUser);
 
-  document.getElementById('creditsLabel').textContent = isPro ? 'Pro Plan — Unlimited' : 'Free Trial';
-  document.getElementById('creditsCount').textContent = isPro ? '∞' : `${limit - used}/${limit} remaining`;
+  let label, count;
+  if (isUnlimited) {
+    label = plan === 'pro-annual' ? 'Pro Annual — Unlimited' : 'Pro — Unlimited';
+    count = '∞';
+  } else if (isStarter) {
+    label = 'Starter Plan';
+    count = `${remaining}/100 remaining`;
+  } else {
+    label = 'Free Trial';
+    const limit = currentUser.emailsLimit || 3;
+    const used = currentUser.emailsUsed || 0;
+    count = `${limit - used}/${limit} remaining`;
+  }
+
+  document.getElementById('creditsLabel').textContent = label;
+  document.getElementById('creditsCount').textContent = count;
 
   const fill = document.getElementById('creditsFill');
-  if (isPro) {
+  if (isUnlimited) {
     fill.style.width = '100%';
     fill.className = 'credits-fill';
+  } else if (isStarter) {
+    const pct = Math.min((remaining / 100) * 100, 100);
+    fill.style.width = pct + '%';
+    fill.className = 'credits-fill' + (pct <= 20 ? ' danger' : pct <= 50 ? ' warning' : '');
   } else {
+    const limit = currentUser.emailsLimit || 3;
+    const used = currentUser.emailsUsed || 0;
     const pct = limit > 0 ? Math.min(((limit - used) / limit) * 100, 100) : 0;
     fill.style.width = pct + '%';
     fill.className = 'credits-fill' + (pct <= 33 ? ' danger' : pct <= 66 ? ' warning' : '');
   }
 
   const upgradeBtn = document.getElementById('upgradeBtn');
-  if (isPro) {
-    upgradeBtn.outerHTML = '<div class="pro-badge">⭐ Pro Plan Active</div>';
+  if (isUnlimited || isStarter) {
+    const badges = { pro: '⭐ Pro Plan Active', 'pro-annual': '⭐ Pro Annual Active', starter: '✓ Starter Plan Active' };
+    upgradeBtn.outerHTML = `<div class="pro-badge">${badges[plan] || '⭐ Plan Active'}</div>`;
   } else {
     upgradeBtn.onclick = openUpgradeModal;
   }
@@ -523,8 +552,14 @@ function setupReferrals() {} // rendered on view switch
 // ---- Settings ----
 function renderSettings() {
   document.getElementById('settingsEmail').textContent = currentUser.email;
+  const planDisplay = {
+    free: 'Free (3 emails)',
+    starter: 'Starter ($9/month · 100 emails)',
+    pro: 'Pro ($19/month · Unlimited)',
+    'pro-annual': 'Pro Annual ($149/year · Unlimited)',
+  };
   document.getElementById('settingsPlan').textContent =
-    currentUser.plan === 'pro' ? 'Pro ($9/month)' : 'Free (3 emails)';
+    planDisplay[currentUser.plan] || 'Free (3 emails)';
   document.getElementById('settingsJoined').textContent =
     new Date(currentUser.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 }
@@ -549,7 +584,9 @@ function setupUpgradeModal() {
     if (e.target === document.getElementById('upgradeModal')) closeUpgradeModal();
   });
   document.getElementById('modalClose').addEventListener('click', closeUpgradeModal);
-  document.getElementById('checkoutBtn').addEventListener('click', startCheckout);
+  document.querySelectorAll('.modal-checkout-btn[data-plan]').forEach(btn => {
+    btn.addEventListener('click', () => startCheckout(btn.dataset.plan));
+  });
 }
 
 function openUpgradeModal() {
@@ -559,16 +596,15 @@ function closeUpgradeModal() {
   document.getElementById('upgradeModal').classList.remove('show');
 }
 
-async function startCheckout() {
-  const btn = document.getElementById('checkoutBtn');
-  btn.disabled = true;
-  btn.textContent = 'Redirecting to Stripe…';
+async function startCheckout(planId = 'pro') {
+  const btn = document.querySelector(`.modal-checkout-btn[data-plan="${planId}"]`);
+  if (btn) { btn.disabled = true; btn.textContent = 'Redirecting…'; }
 
   try {
     const res = await fetch('/api/create-checkout', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId: currentUser.id, email: currentUser.email }),
+      body: JSON.stringify({ userId: currentUser.id, email: currentUser.email, planId }),
     });
     const data = await res.json();
     if (data.url) {
@@ -578,8 +614,7 @@ async function startCheckout() {
     }
   } catch (err) {
     showToast(err.message, 'error');
-    btn.disabled = false;
-    btn.textContent = 'Continue to payment →';
+    if (btn) { btn.disabled = false; btn.textContent = planId === 'starter' ? 'Get Starter →' : planId === 'pro-annual' ? 'Get Annual →' : 'Get Pro →'; }
   }
 }
 

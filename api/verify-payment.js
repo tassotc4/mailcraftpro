@@ -4,10 +4,10 @@ import crypto from 'crypto';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-function createProToken(userId) {
+function createProToken(userId, plan) {
   const secret = process.env.TOKEN_SECRET;
   if (!secret) throw new Error('TOKEN_SECRET not configured');
-  const payload = JSON.stringify({ userId, pro: true, ts: Date.now() });
+  const payload = JSON.stringify({ userId, plan, pro: true, ts: Date.now() });
   const sig = crypto.createHmac('sha256', secret).update(payload).digest('hex');
   return Buffer.from(JSON.stringify({ payload, sig })).toString('base64');
 }
@@ -29,13 +29,14 @@ export default async function handler(req, res) {
     const userId = session.client_reference_id || session.metadata?.userId;
     if (!userId) return res.status(400).json({ error: 'Could not identify user from session' });
 
-    const proToken = createProToken(userId);
+    const plan = session.metadata?.plan || 'pro';
+    const proToken = createProToken(userId, plan);
 
     return res.status(200).json({
       success: true,
       userId,
       proToken,
-      plan: 'pro',
+      plan,
     });
   } catch (err) {
     console.error('Stripe verify error:', err);

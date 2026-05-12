@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Payment Successful — MailCraft Pro</title>
+  <title>Payment Successful — HelpMeWrite</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✉️</text></svg>">
   <link rel="stylesheet" href="css/styles.css">
   <style>
@@ -84,20 +84,26 @@
           throw new Error(data.error || 'Payment verification failed.');
         }
 
-        upgradeUserWithToken(data.proToken);
-        showSuccess(data.proToken);
+        upgradeUserWithToken(data.proToken, data.plan);
+        showSuccess(data.proToken, data.plan);
       } catch (err) {
         showError(err.message);
       }
     }
 
-    function showSuccess(proToken) {
+    function showSuccess(proToken, plan) {
+      const planNames = { starter: 'Starter', pro: 'Pro', 'pro-annual': 'Pro Annual' };
+      const planName = planNames[plan] || 'Pro';
       document.getElementById('statusIcon').textContent = '🎉';
-      document.getElementById('statusTitle').textContent = 'Welcome to Pro!';
-      document.getElementById('statusMsg').textContent = "Your account has been upgraded. You now have unlimited email generation.";
+      document.getElementById('statusTitle').textContent = `Welcome to ${planName}!`;
+      document.getElementById('statusMsg').textContent =
+        plan === 'starter'
+          ? 'Your account has been upgraded. You now have 100 emails per month.'
+          : 'Your account has been upgraded. You now have unlimited email generation.';
       document.getElementById('featureList').style.display = 'block';
       document.getElementById('continueBtn').style.display = 'flex';
       localStorage.setItem('mcp_pending_pro_token', proToken);
+      localStorage.setItem('mcp_pending_plan', plan);
       document.getElementById('continueBtn').href = 'app.html';
     }
 

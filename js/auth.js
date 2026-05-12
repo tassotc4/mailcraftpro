@@ -110,18 +110,34 @@ export function updateUser(updates) {
   return updated;
 }
 
+function getMonthKey() {
+  return new Date().toISOString().slice(0, 7); // "YYYY-MM"
+}
+
+function monthlyUsed(user) {
+  if (user.emailsMonth !== getMonthKey()) return 0;
+  return user.monthlyEmailsUsed || 0;
+}
+
 export function canGenerateEmail(user) {
-  if (user.plan === 'pro' && user.proToken) return true;
+  if ((user.plan === 'pro' || user.plan === 'pro-annual') && user.proToken) return true;
+  if (user.plan === 'starter' && user.proToken) return monthlyUsed(user) < 100;
   return (user.emailsUsed || 0) < (user.emailsLimit || 3);
 }
 
 export function getRemainingEmails(user) {
-  if (user.plan === 'pro' && user.proToken) return Infinity;
+  if ((user.plan === 'pro' || user.plan === 'pro-annual') && user.proToken) return Infinity;
+  if (user.plan === 'starter' && user.proToken) return Math.max(0, 100 - monthlyUsed(user));
   return Math.max(0, (user.emailsLimit || 3) - (user.emailsUsed || 0));
 }
 
 export function recordEmailGenerated(user) {
-  if (user.plan === 'pro' && user.proToken) return updateUser(user);
+  if ((user.plan === 'pro' || user.plan === 'pro-annual') && user.proToken) return user;
+  if (user.plan === 'starter' && user.proToken) {
+    const month = getMonthKey();
+    const used = monthlyUsed(user);
+    return updateUser({ monthlyEmailsUsed: used + 1, emailsMonth: month });
+  }
   return updateUser({ emailsUsed: (user.emailsUsed || 0) + 1 });
 }
 
@@ -158,6 +174,6 @@ function saveAllUsers(users) {
   localStorage.setItem('mcp_users', JSON.stringify(users));
 }
 
-export function upgradeUserWithToken(proToken) {
-  return updateUser({ plan: 'pro', proToken, emailsLimit: Infinity });
+export function upgradeUserWithToken(proToken, plan = 'pro') {
+  return updateUser({ plan, proToken, emailsLimit: Infinity });
 }

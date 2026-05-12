@@ -421,6 +421,7 @@ textarea, input, select { font-family: var(--font); }
   width: 100%; max-width: 440px; box-shadow: var(--sh-lg);
   position: relative;
 }
+.modal.modal-wide { max-width: 860px; padding: 36px; }
 .modal-close {
   position: absolute; top: 16px; right: 16px;
   background: none; border: none; font-size: 1.2rem;
@@ -447,7 +448,37 @@ textarea, input, select { font-family: var(--font); }
 }
 .modal-checkout-btn:hover { opacity: 0.9; }
 .modal-checkout-btn:disabled { opacity: 0.6; cursor: not-allowed; }
-.modal-note { font-size: 0.775rem; color: var(--text-3); text-align: center; margin-top: 10px; }
+.modal-note { font-size: 0.775rem; color: var(--text-3); text-align: center; margin-top: 16px; }
+.modal-plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 8px; }
+.modal-plan {
+  border: 1px solid var(--border); border-radius: var(--r-lg);
+  padding: 24px 20px; display: flex; flex-direction: column; gap: 6px; position: relative;
+}
+.modal-plan-featured {
+  border-color: var(--accent); background: var(--accent-light);
+  box-shadow: 0 0 0 2px var(--accent);
+}
+.modal-plan-badge {
+  position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+  background: var(--accent); color: #fff; font-size: 0.72rem; font-weight: 600;
+  padding: 3px 12px; border-radius: 100px; white-space: nowrap;
+}
+.modal-plan-badge-save { background: var(--success); }
+.modal-plan-name { font-size: 1rem; font-weight: 700; color: var(--text); margin-top: 8px; }
+.modal-plan-price { font-size: 2rem; font-weight: 800; color: var(--text); letter-spacing: -0.03em; line-height: 1.1; }
+.modal-plan-price span { font-size: 0.9rem; font-weight: 500; color: var(--text-2); }
+.modal-plan-desc { font-size: 0.8rem; color: var(--text-2); margin-bottom: 4px; }
+.modal-plan .modal-features { margin-bottom: 16px; flex: 1; }
+.modal-plan .modal-feature { font-size: 0.82rem; }
+.modal-checkout-secondary {
+  background: var(--bg); color: var(--accent);
+  border: 1px solid var(--accent);
+}
+.modal-checkout-secondary:hover { background: var(--accent-light); }
+@media (max-width: 700px) {
+  .modal-plans { grid-template-columns: 1fr; }
+  .modal.modal-wide { padding: 24px 16px; }
+}
 
 /* ---- Toast ---- */
 .toast {

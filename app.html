@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MailCraft Pro — Compose</title>
+  <title>HelpMeWrite — AI Email Writer App</title>
+  <meta name="robots" content="noindex, nofollow">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✉️</text></svg>">
   <link rel="stylesheet" href="css/app.css">
 </head>
@@ -14,7 +15,7 @@
   <div class="sidebar-header">
     <a href="index.html" class="sidebar-logo">
       <div class="sidebar-logo-icon">✉</div>
-      MailCraft Pro
+      HelpMeWrite
     </a>
   </div>
 
@@ -71,7 +72,7 @@
   <div class="welcome-banner" id="welcomeBanner" style="display:none">
     <span style="font-size:1.4rem">🎉</span>
     <div class="welcome-banner-text">
-      <h3>Welcome to MailCraft Pro!</h3>
+      <h3>Welcome to HelpMeWrite!</h3>
       <p>You have <strong id="welcomeCredits">3 free emails</strong> to get started. Pick a profession below and write your first email.</p>
     </div>
     <button class="welcome-banner-close" id="closeBanner">✕</button>
@@ -379,23 +380,56 @@
 
 <!-- ============ UPGRADE MODAL ============ -->
 <div class="modal-overlay" id="upgradeModal">
-  <div class="modal">
+  <div class="modal modal-wide">
     <button class="modal-close" id="modalClose">✕</button>
-    <h2>Upgrade to Pro</h2>
-    <p>Unlock unlimited email generation, full history, and Brand Kit personalization.</p>
-    <div class="modal-price">
-      <div class="modal-price-amount">$9</div>
-      <div class="modal-price-period">per month · cancel anytime</div>
+    <h2>Choose your plan</h2>
+    <p>Upgrade to write more emails. Cancel anytime.</p>
+    <div class="modal-plans">
+
+      <div class="modal-plan">
+        <div class="modal-plan-name">Starter</div>
+        <div class="modal-plan-price">$9<span>/mo</span></div>
+        <div class="modal-plan-desc">100 emails per month</div>
+        <div class="modal-features">
+          <div class="modal-feature"><span class="modal-feature-check">✓</span> 100 emails/month</div>
+          <div class="modal-feature"><span class="modal-feature-check">✓</span> All 12 professions</div>
+          <div class="modal-feature"><span class="modal-feature-check">✓</span> All 50+ email types</div>
+          <div class="modal-feature"><span class="modal-feature-check">✓</span> Email history &amp; search</div>
+        </div>
+        <button class="modal-checkout-btn modal-checkout-secondary" data-plan="starter">Get Starter →</button>
+      </div>
+
+      <div class="modal-plan modal-plan-featured">
+        <div class="modal-plan-badge">Most Popular</div>
+        <div class="modal-plan-name">Pro</div>
+        <div class="modal-plan-price">$19<span>/mo</span></div>
+        <div class="modal-plan-desc">Unlimited emails</div>
+        <div class="modal-features">
+          <div class="modal-feature"><span class="modal-feature-check">✓</span> Unlimited emails</div>
+          <div class="modal-feature"><span class="modal-feature-check">✓</span> All 12 professions</div>
+          <div class="modal-feature"><span class="modal-feature-check">✓</span> Brand Kit personalization</div>
+          <div class="modal-feature"><span class="modal-feature-check">✓</span> Email history &amp; search</div>
+          <div class="modal-feature"><span class="modal-feature-check">✓</span> Priority support</div>
+        </div>
+        <button class="modal-checkout-btn" data-plan="pro">Get Pro →</button>
+      </div>
+
+      <div class="modal-plan">
+        <div class="modal-plan-badge modal-plan-badge-save">Save 35%</div>
+        <div class="modal-plan-name">Pro Annual</div>
+        <div class="modal-plan-price">$149<span>/yr</span></div>
+        <div class="modal-plan-desc">Unlimited · $12.40/mo</div>
+        <div class="modal-features">
+          <div class="modal-feature"><span class="modal-feature-check">✓</span> Everything in Pro</div>
+          <div class="modal-feature"><span class="modal-feature-check">✓</span> Unlimited emails</div>
+          <div class="modal-feature"><span class="modal-feature-check">✓</span> Brand Kit personalization</div>
+          <div class="modal-feature"><span class="modal-feature-check">✓</span> 35% off vs monthly</div>
+        </div>
+        <button class="modal-checkout-btn modal-checkout-secondary" data-plan="pro-annual">Get Annual →</button>
+      </div>
+
     </div>
-    <div class="modal-features">
-      <div class="modal-feature"><span class="modal-feature-check">✓</span> Unlimited emails every month</div>
-      <div class="modal-feature"><span class="modal-feature-check">✓</span> Full email history &amp; search</div>
-      <div class="modal-feature"><span class="modal-feature-check">✓</span> Brand Kit (auto-personalization)</div>
-      <div class="modal-feature"><span class="modal-feature-check">✓</span> All 12 professions &amp; 50+ types</div>
-      <div class="modal-feature"><span class="modal-feature-check">✓</span> Priority support</div>
-    </div>
-    <button class="modal-checkout-btn" id="checkoutBtn">Continue to payment →</button>
-    <div class="modal-note">Secure payment via Stripe · No hidden fees</div>
+    <div class="modal-note">Secure payment via Stripe · No hidden fees · Cancel anytime</div>
   </div>
 </div>
 
