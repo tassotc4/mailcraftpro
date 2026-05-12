@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign up — MailCraft Pro</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✉️</text></svg>">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    body { background: var(--bg-2); min-height: 100vh; display: flex; flex-direction: column; }
+    .auth-nav {
+      height: var(--nav-h); border-bottom: 1px solid var(--border);
+      background: var(--bg); display: flex; align-items: center; justify-content: center;
+    }
+    .auth-wrap {
+      flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px 24px;
+    }
+    .auth-card {
+      background: var(--bg); border: 1px solid var(--border); border-radius: var(--r-xl);
+      padding: 40px; width: 100%; max-width: 440px; box-shadow: var(--sh-lg);
+    }
+    .auth-header { text-align: center; margin-bottom: 28px; }
+    .auth-header h1 { font-size: 1.5rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+    .auth-header p { font-size: 0.9rem; color: var(--text-2); }
+    .free-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(15,123,108,0.08); color: var(--success);
+      border: 1px solid rgba(15,123,108,0.2); border-radius: 100px;
+      font-size: 0.78rem; font-weight: 600; padding: 4px 12px; margin-bottom: 16px;
+    }
+    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+    .form-group label { font-size: 0.85rem; font-weight: 500; color: var(--text); }
+    .form-group input {
+      padding: 10px 14px; border: 1px solid var(--border-2); border-radius: var(--r);
+      font-size: 0.95rem; font-family: var(--font); color: var(--text);
+      background: var(--bg); transition: border-color 0.15s, box-shadow 0.15s; width: 100%;
+    }
+    .form-group input:focus {
+      outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(35,131,226,0.1);
+    }
+    .form-group input::placeholder { color: var(--text-3); }
+    .form-group.ref-group { display: none; }
+    .form-group.ref-group.show { display: flex; }
+    .ref-notice {
+      background: var(--accent-light); border: 1px solid rgba(35,131,226,0.2);
+      border-radius: var(--r); padding: 10px 14px;
+      font-size: 0.825rem; color: var(--accent); font-weight: 500; margin-bottom: 14px;
+    }
+    .form-submit {
+      width: 100%; padding: 12px; border-radius: var(--r);
+      background: var(--accent); color: #fff; border: none;
+      font-size: 0.95rem; font-weight: 500; font-family: var(--font);
+      cursor: pointer; transition: background 0.15s; margin-top: 8px;
+    }
+    .form-submit:hover { background: var(--accent-h); }
+    .form-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+    .terms-note {
+      font-size: 0.78rem; color: var(--text-3); text-align: center; margin-top: 14px; line-height: 1.5;
+    }
+    .terms-note a { color: var(--text-2); text-decoration: underline; }
+    .auth-alt {
+      text-align: center; font-size: 0.875rem; color: var(--text-2); margin-top: 20px;
+    }
+    .auth-alt a { color: var(--accent); font-weight: 500; }
+    .auth-error {
+      display: none; background: #fef2f2; border: 1px solid #fecaca;
+      color: #dc2626; padding: 10px 14px; border-radius: var(--r);
+      font-size: 0.875rem; margin-bottom: 14px;
+    }
+    .auth-error.show { display: block; }
+    .perks { display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; }
+    .perk { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--text-2); }
+    .perk-icon { color: var(--success); font-weight: 700; }
+  </style>
+</head>
+<body>
+  <nav class="auth-nav">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">✉</div>
+      MailCraft Pro
+    </a>
+  </nav>
+
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="free-badge">✓ Free — no credit card needed</div>
+        <h1>Create your account</h1>
+        <p>Start writing professional emails in seconds</p>
+      </div>
+
+      <div class="perks">
+        <div class="perk"><span class="perk-icon">✓</span> 3 free email generations</div>
+        <div class="perk"><span class="perk-icon">✓</span> Access all 12 professions</div>
+        <div class="perk"><span class="perk-icon">✓</span> Earn more via referrals</div>
+      </div>
+
+      <div id="refNotice" class="ref-notice" style="display:none">
+        🎉 You were referred! You'll get <strong>5 bonus emails</strong> on sign-up.
+      </div>
+
+      <div class="auth-error" id="authError"></div>
+
+      <form id="signupForm" novalidate>
+        <div class="form-group">
+          <label for="name">Full name</label>
+          <input type="text" id="name" placeholder="Alex Johnson" autocomplete="name" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <input type="email" id="email" placeholder="you@example.com" autocomplete="email" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="At least 8 characters" autocomplete="new-password" required minlength="8">
+        </div>
+        <div class="form-group ref-group" id="refGroup">
+          <label for="refCode">Referral code</label>
+          <input type="text" id="refCode" placeholder="ABC123" maxlength="6" style="text-transform:uppercase">
+        </div>
+        <button type="submit" class="form-submit" id="submitBtn">Create free account →</button>
+      </form>
+
+      <div class="terms-note">
+        By signing up, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+      </div>
+      <div class="auth-alt">
+        Already have an account? <a href="login.html">Log in →</a>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { signup, getUser } from './js/auth.js';
+    import { validateEmail } from './js/email-validator.js';
+
+    if (getUser()) window.location.href = '/app';
+
+    const params = new URLSearchParams(window.location.search);
+    const refCode = params.get('ref');
+    const plan = params.get('plan');
+
+    if (refCode) {
+      document.getElementById('refCode').value = refCode.toUpperCase();
+      document.getElementById('refNotice').style.display = 'block';
+      document.getElementById('refGroup').classList.add('show');
+    }
+
+    const form = document.getElementById('signupForm');
+    const errorEl = document.getElementById('authError');
+    const submitBtn = document.getElementById('submitBtn');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorEl.classList.remove('show');
+
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const referralCode = document.getElementById('refCode').value.trim().toUpperCase();
+
+      if (!name) { showError('Please enter your name.'); return; }
+      const emailError = validateEmail(email);
+      if (emailError) { showError(emailError); return; }
+      if (password.length < 8) { showError('Password must be at least 8 characters.'); return; }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Creating account…';
+
+      try {
+        signup({ name, email, password, referralCode });
+        if (plan === 'pro') {
+          localStorage.setItem('mcp_show_upgrade', '1');
+        } else {
+          localStorage.setItem('mcp_show_welcome', '1');
+        }
+        window.location.href = '/app';
+      } catch (err) {
+        showError(err.message);
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Create free account →';
+      }
+    });
+
+    function showError(msg) {
+      errorEl.textContent = msg;
+      errorEl.classList.add('show');
+    }
+  </script>
+</body>
+</html>

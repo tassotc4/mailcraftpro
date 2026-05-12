@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Cancelled — MailCraft Pro</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✉️</text></svg>">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    body {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      background: var(--bg-2); padding: 24px;
+    }
+    .cancel-card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--r-xl); padding: 48px 40px;
+      max-width: 460px; width: 100%; text-align: center;
+      box-shadow: var(--sh-lg);
+    }
+    .cancel-icon { font-size: 3rem; margin-bottom: 20px; display: block; }
+    .cancel-card h1 { font-size: 1.5rem; font-weight: 700; color: var(--text); margin-bottom: 12px; }
+    .cancel-card p { font-size: 0.95rem; color: var(--text-2); line-height: 1.65; margin-bottom: 24px; }
+    .cancel-actions { display: flex; flex-direction: column; gap: 10px; }
+    .cancel-actions .btn { width: 100%; justify-content: center; }
+  </style>
+</head>
+<body>
+  <div class="cancel-card">
+    <span class="cancel-icon">↩️</span>
+    <h1>Payment cancelled</h1>
+    <p>No worries — your free trial is still active. You can upgrade to Pro anytime from inside the app when you're ready.</p>
+    <div class="cancel-actions">
+      <a href="app.html" class="btn btn-primary btn-lg">Back to app →</a>
+      <a href="index.html#pricing" class="btn btn-secondary btn-lg">Review pricing</a>
+    </div>
+  </div>
+</body>
+</html>

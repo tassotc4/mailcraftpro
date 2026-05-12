@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Successful — MailCraft Pro</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✉️</text></svg>">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    body {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      background: var(--bg-2); padding: 24px;
+    }
+    .success-card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--r-xl); padding: 48px 40px;
+      max-width: 480px; width: 100%; text-align: center;
+      box-shadow: var(--sh-lg);
+    }
+    .success-icon { font-size: 3.5rem; margin-bottom: 20px; display: block; }
+    .success-card h1 { font-size: 1.6rem; font-weight: 700; color: var(--text); margin-bottom: 12px; }
+    .success-card p { font-size: 0.95rem; color: var(--text-2); line-height: 1.65; margin-bottom: 8px; }
+    .success-features {
+      background: var(--bg-2); border-radius: var(--r-lg); padding: 20px;
+      margin: 24px 0; text-align: left;
+    }
+    .success-feature {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 0.875rem; color: var(--text); padding: 6px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .success-feature:last-child { border-bottom: none; }
+    .success-feature-check { color: var(--success); font-weight: 700; }
+    .loader {
+      display: inline-block; width: 20px; height: 20px;
+      border: 2px solid var(--border-2); border-top-color: var(--accent);
+      border-radius: 50%; animation: spin 0.7s linear infinite; margin-right: 8px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .status-msg { font-size: 0.875rem; color: var(--text-2); margin-bottom: 20px; }
+    .error-msg { color: var(--danger); }
+  </style>
+</head>
+<body>
+  <div class="success-card">
+    <span class="success-icon" id="statusIcon">⏳</span>
+    <h1 id="statusTitle">Verifying your payment…</h1>
+    <p class="status-msg" id="statusMsg">
+      <span class="loader"></span> Please wait while we activate your Pro account.
+    </p>
+
+    <div class="success-features" id="featureList" style="display:none">
+      <div class="success-feature"><span class="success-feature-check">✓</span> Unlimited email generation</div>
+      <div class="success-feature"><span class="success-feature-check">✓</span> Full email history</div>
+      <div class="success-feature"><span class="success-feature-check">✓</span> Brand Kit personalization</div>
+      <div class="success-feature"><span class="success-feature-check">✓</span> All 12 professions</div>
+    </div>
+
+    <a href="app.html" class="btn btn-primary btn-lg" id="continueBtn" style="display:none;width:100%;justify-content:center">
+      Start writing unlimited emails →
+    </a>
+    <a href="app.html" class="btn btn-secondary" id="fallbackBtn" style="display:none;width:100%;justify-content:center">
+      Go to app
+    </a>
+  </div>
+
+  <script type="module">
+    import { upgradeUserWithToken, getUser } from './js/auth.js';
+
+    const params = new URLSearchParams(window.location.search);
+    const sessionId = params.get('session_id');
+
+    async function verifyAndActivate() {
+      if (!sessionId) {
+        showError('No session ID found. Please contact support.');
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/verify-payment?session_id=${sessionId}`);
+        const data = await res.json();
+
+        if (!res.ok || !data.success) {
+          throw new Error(data.error || 'Payment verification failed.');
+        }
+
+        upgradeUserWithToken(data.proToken);
+        showSuccess(data.proToken);
+      } catch (err) {
+        showError(err.message);
+      }
+    }
+
+    function showSuccess(proToken) {
+      document.getElementById('statusIcon').textContent = '🎉';
+      document.getElementById('statusTitle').textContent = 'Welcome to Pro!';
+      document.getElementById('statusMsg').textContent = "Your account has been upgraded. You now have unlimited email generation.";
+      document.getElementById('featureList').style.display = 'block';
+      document.getElementById('continueBtn').style.display = 'flex';
+      localStorage.setItem('mcp_pending_pro_token', proToken);
+      document.getElementById('continueBtn').href = 'app.html';
+    }
+
+    function showError(msg) {
+      document.getElementById('statusIcon').textContent = '⚠️';
+      document.getElementById('statusTitle').textContent = 'Something went wrong';
+      document.getElementById('statusMsg').innerHTML = `<span class="error-msg">${msg}</span><br><br>If you completed payment, your account will be upgraded shortly. Please contact support if the issue persists.`;
+      document.getElementById('fallbackBtn').style.display = 'flex';
+    }
+
+    verifyAndActivate();
+  </script>
+</body>
+</html>

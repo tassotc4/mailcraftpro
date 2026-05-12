@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(New-Item -ItemType Directory -Path \"C:\\\\Users\\\\HP\\\\mailcraftpro\\\\css\" -Force)",
+      "PowerShell(New-Item -ItemType Directory -Path \"C:\\\\Users\\\\HP\\\\mailcraftpro\\\\js\" -Force)",
+      "PowerShell(New-Item -ItemType Directory -Path \"C:\\\\Users\\\\HP\\\\mailcraftpro\\\\api\" -Force)",
+      "mcp__Claude_in_Chrome__tabs_context_mcp",
+      "mcp__Claude_Preview__preview_start"
+    ]
+  }
+}

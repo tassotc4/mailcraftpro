@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MailCraft Pro — Compose</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✉️</text></svg>">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+<!-- ============ SIDEBAR ============ -->
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <a href="index.html" class="sidebar-logo">
+      <div class="sidebar-logo-icon">✉</div>
+      MailCraft Pro
+    </a>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-section">
+      <button class="nav-item active" data-view="compose">
+        <span class="nav-item-icon">✍️</span> Compose
+      </button>
+      <button class="nav-item" data-view="history">
+        <span class="nav-item-icon">📋</span> History
+      </button>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-label">Customize</div>
+      <button class="nav-item" data-view="brandkit">
+        <span class="nav-item-icon">🎨</span> Brand Kit
+      </button>
+      <button class="nav-item" data-view="referrals">
+        <span class="nav-item-icon">👥</span> Referrals
+      </button>
+    </div>
+    <div class="nav-section">
+      <button class="nav-item" data-view="settings">
+        <span class="nav-item-icon">⚙️</span> Settings
+      </button>
+    </div>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="credits-box" id="creditsBox">
+      <div class="credits-header">
+        <span class="credits-label" id="creditsLabel">Free Trial</span>
+        <span class="credits-count" id="creditsCount"></span>
+      </div>
+      <div class="credits-bar">
+        <div class="credits-fill" id="creditsFill"></div>
+      </div>
+      <button class="upgrade-btn" id="upgradeBtn">⚡ Upgrade to Pro — $9/mo</button>
+    </div>
+    <div class="user-info" id="userInfo">
+      <div class="user-avatar" id="userAvatar"></div>
+      <div class="user-name" id="userName">
+        <span id="userEmail"></span>
+      </div>
+      <button class="logout-btn" id="logoutBtn" title="Log out">↩</button>
+    </div>
+  </div>
+</aside>
+
+<!-- ============ MAIN CONTENT ============ -->
+<main class="main">
+
+  <!-- Welcome Banner -->
+  <div class="welcome-banner" id="welcomeBanner" style="display:none">
+    <span style="font-size:1.4rem">🎉</span>
+    <div class="welcome-banner-text">
+      <h3>Welcome to MailCraft Pro!</h3>
+      <p>You have <strong id="welcomeCredits">3 free emails</strong> to get started. Pick a profession below and write your first email.</p>
+    </div>
+    <button class="welcome-banner-close" id="closeBanner">✕</button>
+  </div>
+
+  <!-- ============ COMPOSE VIEW ============ -->
+  <div class="view active" id="view-compose">
+    <div class="main-header">
+      <h1>Compose Email</h1>
+    </div>
+    <div class="compose-layout">
+      <!-- Left: Form -->
+      <div class="compose-form">
+        <div class="form-section">
+          <label class="form-label">Your profession</label>
+          <select class="form-select" id="professionSelect">
+            <option value="">— Select your profession —</option>
+            <option value="real-estate">🏠 Real Estate Agent</option>
+            <option value="lawyer">⚖️ Lawyer / Attorney</option>
+            <option value="doctor">🏥 Doctor / Healthcare Professional</option>
+            <option value="freelancer">💻 Freelancer / Independent Contractor</option>
+            <option value="coach">🎯 Coach (Life, Business, Executive)</option>
+            <option value="consultant">📊 Consultant</option>
+            <option value="sales">💼 Sales Representative</option>
+            <option value="recruiter">👥 HR Recruiter</option>
+            <option value="property-manager">🔑 Property Manager</option>
+            <option value="financial-advisor">📈 Financial Advisor</option>
+            <option value="accountant">🧾 Accountant / CPA</option>
+            <option value="personal-trainer">💪 Personal Trainer</option>
+          </select>
+        </div>
+
+        <div class="form-section" id="emailTypeSection" style="display:none">
+          <label class="form-label">Email type</label>
+          <select class="form-select" id="emailTypeSelect">
+            <option value="">— Select email type —</option>
+          </select>
+        </div>
+
+        <div class="form-section" id="detailsSection" style="display:none">
+          <label class="form-label">Recipient</label>
+          <input type="text" class="form-input" id="recipientInput" placeholder="e.g. John Smith, a potential buyer">
+          <div class="form-hint">Who are you sending this to?</div>
+        </div>
+
+        <div class="form-section" id="contextSection" style="display:none">
+          <label class="form-label">Context &amp; key details</label>
+          <textarea class="form-textarea" id="contextInput" rows="4"
+            placeholder="Describe the situation, key facts, property details, case updates, or anything the AI should include..."></textarea>
+          <div class="form-hint">More detail = better email. Include names, numbers, dates, or specific points you want covered.</div>
+        </div>
+
+        <div class="form-section" id="toneSection" style="display:none">
+          <label class="form-label">Tone</label>
+          <div class="tone-grid">
+            <div class="tone-option selected" data-tone="professional">
+              <span class="tone-emoji">👔</span>Professional
+            </div>
+            <div class="tone-option" data-tone="friendly">
+              <span class="tone-emoji">😊</span>Friendly
+            </div>
+            <div class="tone-option" data-tone="formal">
+              <span class="tone-emoji">🎩</span>Formal
+            </div>
+            <div class="tone-option" data-tone="assertive">
+              <span class="tone-emoji">💪</span>Assertive
+            </div>
+            <div class="tone-option" data-tone="urgent">
+              <span class="tone-emoji">⚡</span>Urgent
+            </div>
+          </div>
+        </div>
+
+        <div id="generateSection" style="display:none">
+          <button class="generate-btn" id="generateBtn">
+            <span class="btn-text">✨ Generate Email</span>
+            <div class="spinner"></div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Right: Output -->
+      <div class="compose-output">
+        <div class="output-placeholder" id="outputPlaceholder">
+          <div class="output-placeholder-icon">✉️</div>
+          <h3>Your email will appear here</h3>
+          <p>Choose a profession and email type on the left, fill in the details, and click Generate.</p>
+        </div>
+
+        <div class="output-card" id="outputCard">
+          <div class="output-card-header">
+            <div>
+              <div class="output-subject-label">Subject line</div>
+              <div class="output-subject" id="outputSubject"></div>
+            </div>
+            <div class="output-actions">
+              <button class="action-btn" id="copyBtn">📋 Copy</button>
+              <button class="action-btn" id="regenerateBtn">🔄 Regenerate</button>
+              <button class="action-btn" id="saveHistoryBtn">💾 Save</button>
+            </div>
+          </div>
+          <div class="output-body">
+            <div class="output-text" id="outputBody"></div>
+          </div>
+          <div class="output-meta" id="outputMeta"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ HISTORY VIEW ============ -->
+  <div class="view" id="view-history">
+    <div class="main-header">
+      <h1>Email History</h1>
+    </div>
+    <div class="history-wrap">
+      <div class="history-search">
+        <span class="history-search-icon">🔍</span>
+        <input type="text" id="historySearch" placeholder="Search your emails…">
+      </div>
+      <div id="historyList"></div>
+    </div>
+  </div>
+
+  <!-- ============ BRAND KIT VIEW ============ -->
+  <div class="view" id="view-brandkit">
+    <div class="main-header">
+      <h1>Brand Kit</h1>
+    </div>
+    <div class="brandkit-wrap">
+      <div class="brandkit-section">
+        <h3>Your Identity</h3>
+        <p>This information is automatically included in every email you generate.</p>
+        <div class="form-row" style="margin-bottom:14px">
+          <div>
+            <label class="form-label">Your name</label>
+            <input type="text" class="form-input" id="bkName" placeholder="Alex Johnson">
+          </div>
+          <div>
+            <label class="form-label">Company / Practice name</label>
+            <input type="text" class="form-input" id="bkCompany" placeholder="Johnson Realty Group">
+          </div>
+        </div>
+        <div class="form-row" style="margin-bottom:14px">
+          <div>
+            <label class="form-label">Your role / title</label>
+            <input type="text" class="form-input" id="bkRole" placeholder="Senior Real Estate Agent">
+          </div>
+          <div>
+            <label class="form-label">Phone (optional)</label>
+            <input type="text" class="form-input" id="bkPhone" placeholder="(512) 555-0100">
+          </div>
+        </div>
+      </div>
+
+      <div class="brandkit-section">
+        <h3>Voice &amp; Tone</h3>
+        <p>Describe how you want to come across in your emails.</p>
+        <div style="margin-bottom:14px">
+          <label class="form-label">Default tone</label>
+          <select class="form-select" id="bkTone">
+            <option value="professional">Professional</option>
+            <option value="friendly">Friendly &amp; Approachable</option>
+            <option value="formal">Formal</option>
+            <option value="assertive">Assertive</option>
+            <option value="conversational">Conversational</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Brand voice notes (optional)</label>
+          <textarea class="form-textarea" id="bkVoice" rows="3"
+            placeholder="e.g. I always close with a warm call to action. I avoid jargon. I like to reference client goals."></textarea>
+        </div>
+      </div>
+
+      <div class="brandkit-section">
+        <h3>Email Signature</h3>
+        <p>Appended to the bottom of every generated email.</p>
+        <textarea class="form-textarea" id="bkSignature" rows="4"
+          placeholder="e.g.&#10;Best regards,&#10;Alex Johnson | Senior Agent&#10;Johnson Realty Group | (512) 555-0100&#10;alex@johnsonrealty.com"></textarea>
+      </div>
+
+      <button class="save-btn" id="saveBrandKit">Save Brand Kit</button>
+    </div>
+  </div>
+
+  <!-- ============ REFERRALS VIEW ============ -->
+  <div class="view" id="view-referrals">
+    <div class="main-header">
+      <h1>Referrals</h1>
+    </div>
+    <div class="referral-wrap">
+      <div class="referral-hero">
+        <h2>Earn free emails by referring friends</h2>
+        <p>Share your unique link. When someone signs up, you both get <strong>5 bonus emails</strong> — no strings attached.</p>
+        <div class="referral-link-box">
+          <span class="referral-link-url" id="referralLinkUrl"></span>
+          <button class="action-btn" id="copyReferralBtn">📋 Copy</button>
+        </div>
+      </div>
+
+      <div class="referral-stats">
+        <div class="referral-stat">
+          <div class="referral-stat-value" id="refCount">0</div>
+          <div class="referral-stat-label">Referrals made</div>
+        </div>
+        <div class="referral-stat">
+          <div class="referral-stat-value" id="refBonus">0</div>
+          <div class="referral-stat-label">Bonus emails earned</div>
+        </div>
+        <div class="referral-stat">
+          <div class="referral-stat-value" id="refRemaining">0</div>
+          <div class="referral-stat-label">Emails remaining</div>
+        </div>
+      </div>
+
+      <div class="referral-how">
+        <h3>How it works</h3>
+        <div class="referral-step">
+          <div class="referral-step-num">1</div>
+          <div class="referral-step-text">
+            <h4>Copy your referral link</h4>
+            <p>Each account gets a unique referral link tied to your account.</p>
+          </div>
+        </div>
+        <div class="referral-step">
+          <div class="referral-step-num">2</div>
+          <div class="referral-step-text">
+            <h4>Share with colleagues</h4>
+            <p>Send it via email, Slack, LinkedIn, or anywhere your network hangs out.</p>
+          </div>
+        </div>
+        <div class="referral-step">
+          <div class="referral-step-num">3</div>
+          <div class="referral-step-text">
+            <h4>Both of you get 5 bonus emails</h4>
+            <p>As soon as they sign up, your bonus emails are credited automatically.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SETTINGS VIEW ============ -->
+  <div class="view" id="view-settings">
+    <div class="main-header">
+      <h1>Settings</h1>
+    </div>
+    <div class="settings-wrap">
+      <div class="settings-section">
+        <h3>Account</h3>
+        <div class="settings-row">
+          <div class="settings-row-info">
+            <h4>Email address</h4>
+            <p id="settingsEmail"></p>
+          </div>
+        </div>
+        <div class="settings-row">
+          <div class="settings-row-info">
+            <h4>Plan</h4>
+            <p id="settingsPlan"></p>
+          </div>
+          <button class="action-btn" id="settingsUpgradeBtn">Upgrade →</button>
+        </div>
+        <div class="settings-row">
+          <div class="settings-row-info">
+            <h4>Member since</h4>
+            <p id="settingsJoined"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h3>Subscription</h3>
+        <div class="settings-row">
+          <div class="settings-row-info">
+            <h4>Manage billing</h4>
+            <p>Update payment method or cancel your subscription via Stripe.</p>
+          </div>
+          <button class="action-btn" id="manageSubBtn">Manage →</button>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h3>Data</h3>
+        <div class="settings-row">
+          <div class="settings-row-info">
+            <h4>Clear email history</h4>
+            <p>Permanently delete all saved emails from this device.</p>
+          </div>
+          <button class="danger-btn" id="clearHistoryBtn">Clear history</button>
+        </div>
+        <div class="settings-row">
+          <div class="settings-row-info">
+            <h4>Log out</h4>
+            <p>Sign out of your account on this device.</p>
+          </div>
+          <button class="danger-btn" id="settingsLogoutBtn">Log out</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ============ UPGRADE MODAL ============ -->
+<div class="modal-overlay" id="upgradeModal">
+  <div class="modal">
+    <button class="modal-close" id="modalClose">✕</button>
+    <h2>Upgrade to Pro</h2>
+    <p>Unlock unlimited email generation, full history, and Brand Kit personalization.</p>
+    <div class="modal-price">
+      <div class="modal-price-amount">$9</div>
+      <div class="modal-price-period">per month · cancel anytime</div>
+    </div>
+    <div class="modal-features">
+      <div class="modal-feature"><span class="modal-feature-check">✓</span> Unlimited emails every month</div>
+      <div class="modal-feature"><span class="modal-feature-check">✓</span> Full email history &amp; search</div>
+      <div class="modal-feature"><span class="modal-feature-check">✓</span> Brand Kit (auto-personalization)</div>
+      <div class="modal-feature"><span class="modal-feature-check">✓</span> All 12 professions &amp; 50+ types</div>
+      <div class="modal-feature"><span class="modal-feature-check">✓</span> Priority support</div>
+    </div>
+    <button class="modal-checkout-btn" id="checkoutBtn">Continue to payment →</button>
+    <div class="modal-note">Secure payment via Stripe · No hidden fees</div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
