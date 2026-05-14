@@ -413,15 +413,16 @@ textarea, input, select { font-family: var(--font); }
 .modal-overlay {
   display: none; position: fixed; inset: 0; z-index: 200;
   background: rgba(0,0,0,0.4); backdrop-filter: blur(4px);
-  justify-content: center; padding: 24px;
-  overflow-y: auto; overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
+  align-items: center; justify-content: center; padding: 16px;
 }
-.modal-overlay.show { display: block; }
+.modal-overlay.show { display: flex; }
 .modal {
   background: var(--bg); border-radius: var(--r-xl); padding: 40px;
   width: 100%; max-width: 440px; box-shadow: var(--sh-lg);
-  position: relative; margin: 0 auto;
+  position: relative;
+  max-height: 90vh; overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
 }
 .modal.modal-wide { max-width: 860px; padding: 36px; }
 .modal-close {

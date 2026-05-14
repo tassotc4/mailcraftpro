@@ -590,9 +590,11 @@ function setupUpgradeModal() {
 
 function openUpgradeModal() {
   document.getElementById('upgradeModal').classList.add('show');
+  document.body.style.overflow = 'hidden';
 }
 function closeUpgradeModal() {
   document.getElementById('upgradeModal').classList.remove('show');
+  document.body.style.overflow = '';
 }
 
 async function startCheckout(planId = 'pro') {
