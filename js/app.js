@@ -121,7 +121,7 @@ let selectedTone = 'professional';
 let lastGenerated = null;
 
 // ---- Init ----
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   currentUser = requireAuth();
   if (!currentUser) return;
 
@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const plan = localStorage.getItem('mcp_pending_plan') || 'pro';
     localStorage.removeItem('mcp_pending_pro_token');
     localStorage.removeItem('mcp_pending_plan');
-    currentUser = upgradeUserWithToken(proToken, plan);
+    currentUser = await upgradeUserWithToken(proToken, plan);
     renderSidebar();
     const msgs = {
       starter: '🎉 You\'re now on Starter! 100 emails/month unlocked.',
@@ -343,7 +343,7 @@ async function generateEmail() {
     lastGenerated = { profession, emailType, recipient, context, tone: selectedTone, subject, body };
 
     // Decrement trial counter
-    currentUser = recordEmailGenerated(currentUser);
+    currentUser = await recordEmailGenerated(currentUser);
     renderSidebar();
 
     renderOutput(subject, body, profession, emailType);
@@ -509,7 +509,7 @@ function loadBrandKit() {
 }
 
 function setupBrandKit() {
-  document.getElementById('saveBrandKit').addEventListener('click', () => {
+  document.getElementById('saveBrandKit').addEventListener('click', async () => {
     const brandKit = {
       name: document.getElementById('bkName').value.trim(),
       company: document.getElementById('bkCompany').value.trim(),
@@ -519,7 +519,7 @@ function setupBrandKit() {
       voice: document.getElementById('bkVoice').value.trim(),
       signature: document.getElementById('bkSignature').value.trim(),
     };
-    currentUser = updateUser({ brandKit });
+    currentUser = await updateUser({ brandKit });
     const btn = document.getElementById('saveBrandKit');
     btn.textContent = '✓ Saved!';
     btn.classList.add('saved');

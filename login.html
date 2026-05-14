@@ -120,7 +120,7 @@
       try {
         const email = document.getElementById('email').value.trim();
         const password = document.getElementById('password').value;
-        login({ email, password });
+        await login({ email, password });
         const next = new URLSearchParams(window.location.search).get('next');
         window.location.href = next || '/app';
       } catch (err) {

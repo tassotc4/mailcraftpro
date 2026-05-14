@@ -171,7 +171,7 @@
       submitBtn.textContent = 'Creating account…';
 
       try {
-        signup({ name, email, password, referralCode });
+        await signup({ name, email, password, referralCode });
         if (plan === 'pro') {
           localStorage.setItem('mcp_show_upgrade', '1');
         } else {

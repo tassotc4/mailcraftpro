@@ -1,19 +1,12 @@
-// Auth utilities — localStorage-based session management
-// In production: replace with JWT + real DB (Supabase, PlanetScale, etc.)
+// Auth utilities — Supabase-backed session management
+// Session stored in localStorage, user data in Supabase
 
 import { validateEmail } from './email-validator.js';
 
 const AUTH_KEY = 'mcp_user';
 const HISTORY_KEY = 'mcp_history';
 
-function generateId() {
-  return Math.random().toString(36).slice(2) + Date.now().toString(36);
-}
-
-function generateReferralCode() {
-  return Math.random().toString(36).slice(2, 8).toUpperCase();
-}
-
+// ---- Session ----
 export function getUser() {
   try {
     return JSON.parse(localStorage.getItem(AUTH_KEY));
@@ -40,78 +33,70 @@ export function requireAuth() {
   return user;
 }
 
-export function signup({ name, email, password, referralCode }) {
+// ---- Signup ----
+export async function signup({ name, email, password, referralCode }) {
   const emailError = validateEmail(email);
   if (emailError) throw new Error(emailError);
+  if (password.length < 8) throw new Error('Password must be at least 8 characters.');
 
-  const existing = getAllUsers().find(u => u.email === email);
-  if (existing) throw new Error('An account with this email already exists.');
+  const res = await fetch('/api/auth/signup', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, email, password, referralCode }),
+  });
 
-  const user = {
-    id: generateId(),
-    name,
-    email,
-    password: btoa(password), // obfuscated, not secure — use bcrypt in production
-    plan: 'free',
-    emailsUsed: 0,
-    emailsLimit: 3,
-    bonusEmails: 0,
-    referralCode: generateReferralCode(),
-    referredBy: referralCode || null,
-    referralCount: 0,
-    proToken: null,
-    createdAt: new Date().toISOString(),
-    brandKit: {
-      name: name,
-      company: '',
-      role: '',
-      tone: 'professional',
-      signature: '',
-    },
-  };
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || 'Signup failed.');
 
-  // Credit referrer
-  if (referralCode) {
-    const allUsers = getAllUsers();
-    const referrer = allUsers.find(u => u.referralCode === referralCode);
-    if (referrer) {
-      referrer.bonusEmails = (referrer.bonusEmails || 0) + 5;
-      referrer.referralCount = (referrer.referralCount || 0) + 1;
-      referrer.emailsLimit = (referrer.emailsLimit || 3) + 5;
-      saveAllUsers(allUsers.map(u => u.id === referrer.id ? referrer : u));
-    }
-    user.bonusEmails = 5;
-    user.emailsLimit = 8;
-  }
-
-  const allUsers = getAllUsers();
-  allUsers.push(user);
-  saveAllUsers(allUsers);
-  saveUser(user);
-  return user;
+  saveUser(data.user);
+  return data.user;
 }
 
-export function login({ email, password }) {
-  const allUsers = getAllUsers();
-  const user = allUsers.find(u => u.email === email);
-  if (!user) throw new Error('No account found with this email.');
-  if (user.password !== btoa(password)) throw new Error('Incorrect password.');
-  saveUser(user);
-  return user;
+// ---- Login ----
+export async function login({ email, password }) {
+  const res = await fetch('/api/auth/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password }),
+  });
+
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || 'Login failed.');
+
+  saveUser(data.user);
+  return data.user;
 }
 
-export function updateUser(updates) {
+// ---- Update User ----
+export async function updateUser(updates) {
   const user = getUser();
-  if (!user) return;
+  if (!user) return null;
+
   const updated = { ...user, ...updates };
   saveUser(updated);
-  const allUsers = getAllUsers();
-  saveAllUsers(allUsers.map(u => u.id === updated.id ? updated : u));
+
+  // Sync to Supabase in background
+  try {
+    const res = await fetch('/api/auth/update', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: user.id, updates }),
+    });
+    const data = await res.json();
+    if (res.ok && data.user) {
+      saveUser(data.user);
+      return data.user;
+    }
+  } catch (err) {
+    console.error('Sync error:', err);
+  }
+
   return updated;
 }
 
+// ---- Plan Logic ----
 function getMonthKey() {
-  return new Date().toISOString().slice(0, 7); // "YYYY-MM"
+  return new Date().toISOString().slice(0, 7);
 }
 
 function monthlyUsed(user) {
@@ -131,23 +116,31 @@ export function getRemainingEmails(user) {
   return Math.max(0, (user.emailsLimit || 3) - (user.emailsUsed || 0));
 }
 
-export function recordEmailGenerated(user) {
+export async function recordEmailGenerated(user) {
   if ((user.plan === 'pro' || user.plan === 'pro-annual') && user.proToken) return user;
   if (user.plan === 'starter' && user.proToken) {
     const month = getMonthKey();
     const used = monthlyUsed(user);
-    return updateUser({ monthlyEmailsUsed: used + 1, emailsMonth: month });
+    return await updateUser({ monthlyEmailsUsed: used + 1, emailsMonth: month });
   }
-  return updateUser({ emailsUsed: (user.emailsUsed || 0) + 1 });
+  return await updateUser({ emailsUsed: (user.emailsUsed || 0) + 1 });
 }
 
-// Email history
+export async function upgradeUserWithToken(proToken, plan = 'pro') {
+  return await updateUser({ plan, proToken, emailsLimit: Infinity });
+}
+
+// ---- Email History (localStorage) ----
 export function getHistory() {
   try {
     return JSON.parse(localStorage.getItem(HISTORY_KEY)) || [];
   } catch {
     return [];
   }
+}
+
+function generateId() {
+  return Math.random().toString(36).slice(2) + Date.now().toString(36);
 }
 
 export function saveToHistory(entry) {
@@ -159,21 +152,4 @@ export function saveToHistory(entry) {
 export function deleteFromHistory(id) {
   const history = getHistory().filter(e => e.id !== id);
   localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
-}
-
-// Multi-user store (demo: all in localStorage)
-function getAllUsers() {
-  try {
-    return JSON.parse(localStorage.getItem('mcp_users')) || [];
-  } catch {
-    return [];
-  }
-}
-
-function saveAllUsers(users) {
-  localStorage.setItem('mcp_users', JSON.stringify(users));
-}
-
-export function upgradeUserWithToken(proToken, plan = 'pro') {
-  return updateUser({ plan, proToken, emailsLimit: Infinity });
 }
