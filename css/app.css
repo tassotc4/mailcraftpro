@@ -413,16 +413,16 @@ textarea, input, select { font-family: var(--font); }
 .modal-overlay {
   display: none; position: fixed; inset: 0; z-index: 200;
   background: rgba(0,0,0,0.4); backdrop-filter: blur(4px);
-  align-items: center; justify-content: center; padding: 16px;
+  overflow-y: auto; overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  padding: 16px;
 }
-.modal-overlay.show { display: flex; }
+.modal-overlay.show { display: block; }
 .modal {
   background: var(--bg); border-radius: var(--r-xl); padding: 40px;
   width: 100%; max-width: 440px; box-shadow: var(--sh-lg);
-  position: relative;
-  max-height: 90vh; overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
+  position: relative; margin: 0 auto;
 }
 .modal.modal-wide { max-width: 860px; padding: 36px; }
 .modal-close {
@@ -479,8 +479,13 @@ textarea, input, select { font-family: var(--font); }
 }
 .modal-checkout-secondary:hover { background: var(--accent-light); }
 @media (max-width: 700px) {
-  .modal-plans { grid-template-columns: 1fr; }
-  .modal.modal-wide { padding: 24px 16px; }
+  .modal-plans { grid-template-columns: 1fr; gap: 10px; }
+  .modal.modal-wide { padding: 20px 14px; }
+  .modal-plan { padding: 16px 14px; gap: 4px; }
+  .modal-plan-price { font-size: 1.5rem; }
+  .modal-plan .modal-features { margin-bottom: 10px; }
+  .modal h2 { font-size: 1.1rem; }
+  .modal p { margin-bottom: 12px; }
 }
 
 /* ---- Toast ---- */

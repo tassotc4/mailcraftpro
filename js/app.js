@@ -583,6 +583,7 @@ function setupUpgradeModal() {
     if (e.target === document.getElementById('upgradeModal')) closeUpgradeModal();
   });
   document.getElementById('modalClose').addEventListener('click', closeUpgradeModal);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeUpgradeModal(); });
   document.querySelectorAll('.modal-checkout-btn[data-plan]').forEach(btn => {
     btn.addEventListener('click', () => startCheckout(btn.dataset.plan));
   });
