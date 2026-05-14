@@ -16,7 +16,7 @@ export default async function handler(req, res) {
   if (!userId) return res.status(400).json({ error: 'userId is required' });
 
   const priceId = PRICE_IDS[planId];
-  if (!priceId) return res.status(400).json({ error: `Invalid planId: ${planId}` });
+  if (!priceId) return res.status(400).json({ error: `Missing price ID for plan: ${planId}. Check STRIPE_${planId.toUpperCase().replace('-','_')}_PRICE_ID env var.` });
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
 
@@ -37,6 +37,6 @@ export default async function handler(req, res) {
     return res.status(200).json({ url: session.url });
   } catch (err) {
     console.error('Stripe error:', err);
-    return res.status(500).json({ error: 'Failed to create checkout session. Please try again.' });
+    return res.status(500).json({ error: err.message || 'Failed to create checkout session.' });
   }
 }
