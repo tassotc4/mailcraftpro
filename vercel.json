@@ -26,6 +26,10 @@
       "dest": "/robots.txt"
     },
     {
+      "src": "/og.png",
+      "dest": "/og.png"
+    },
+    {
       "src": "/signup",
       "dest": "/signup.html"
     },
@@ -38,6 +42,62 @@
       "dest": "/app.html"
     },
     {
+      "src": "/real-estate-email-writer",
+      "dest": "/real-estate-email-writer/index.html"
+    },
+    {
+      "src": "/legal-email-generator",
+      "dest": "/legal-email-generator/index.html"
+    },
+    {
+      "src": "/sales-email-generator",
+      "dest": "/sales-email-generator/index.html"
+    },
+    {
+      "src": "/hr-recruiter-email-generator",
+      "dest": "/hr-recruiter-email-generator/index.html"
+    },
+    {
+      "src": "/freelancer-email-templates",
+      "dest": "/freelancer-email-templates/index.html"
+    },
+    {
+      "src": "/medical-email-generator",
+      "dest": "/medical-email-generator/index.html"
+    },
+    {
+      "src": "/consultant-email-templates",
+      "dest": "/consultant-email-templates/index.html"
+    },
+    {
+      "src": "/financial-advisor-email-templates",
+      "dest": "/financial-advisor-email-templates/index.html"
+    },
+    {
+      "src": "/property-manager-email-templates",
+      "dest": "/property-manager-email-templates/index.html"
+    },
+    {
+      "src": "/coach-email-templates",
+      "dest": "/coach-email-templates/index.html"
+    },
+    {
+      "src": "/accountant-email-templates",
+      "dest": "/accountant-email-templates/index.html"
+    },
+    {
+      "src": "/personal-trainer-email-templates",
+      "dest": "/personal-trainer-email-templates/index.html"
+    },
+    {
+      "src": "/blog",
+      "dest": "/blog/index.html"
+    },
+    {
+      "src": "/blog/(.*)",
+      "dest": "/blog/$1/index.html"
+    },
+    {
       "src": "/",
       "dest": "/index.html"
     }
@@ -46,9 +106,18 @@
     {
       "source": "/api/(.*)",
       "headers": [
-        { "key": "Access-Control-Allow-Origin", "value": "*" },
-        { "key": "Access-Control-Allow-Methods", "value": "GET, POST, OPTIONS" },
-        { "key": "Access-Control-Allow-Headers", "value": "Content-Type, Authorization" }
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, POST, OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Content-Type, Authorization"
+        }
       ]
     }
   ]
