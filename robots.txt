@@ -1,6 +1,9 @@
 User-agent: *
 Allow: /
-Disallow: /app
+
+Disallow: /app.html
+Disallow: /login.html
+Disallow: /signup.html
 Disallow: /api/
 
 Sitemap: https://helpmewrite.email/sitemap.xml
