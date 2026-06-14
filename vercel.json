@@ -2,6 +2,18 @@
   "version": 2,
   "routes": [
     {
+      "src": "/logo.png",
+      "dest": "/logo.png"
+    },
+    {
+      "src": "/favicon.ico",
+      "dest": "/favicon.ico"
+    },
+    {
+      "src": "/favicon.png",
+      "dest": "/favicon.png"
+    },
+    {
       "src": "/api/(.*)",
       "dest": "/api/$1"
     },
