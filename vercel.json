@@ -118,6 +118,18 @@
       "dest": "/terms.html"
     },
     {
+      "src": "/features",
+      "dest": "/features/index.html"
+    },
+    {
+      "src": "/pricing",
+      "dest": "/pricing.html"
+    },
+    {
+      "src": "/best-ai-email-writer",
+      "dest": "/best-ai-email-writer/index.html"
+    },
+    {
       "src": "/",
       "dest": "/index.html"
     }
