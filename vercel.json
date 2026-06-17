@@ -2,32 +2,20 @@
   "version": 2,
   "routes": [
     {
-      "src": "/logo.png",
-      "dest": "/logo.png"
+      "src": "/favicon.png",
+      "dest": "/favicon.png"
     },
     {
       "src": "/favicon.ico",
       "dest": "/favicon.ico"
     },
     {
-      "src": "/favicon.png",
-      "dest": "/favicon.png"
+      "src": "/logo.png",
+      "dest": "/logo.png"
     },
     {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    },
-    {
-      "src": "/(.*\\.html)",
-      "dest": "/$1"
-    },
-    {
-      "src": "/css/(.*)",
-      "dest": "/css/$1"
-    },
-    {
-      "src": "/js/(.*)",
-      "dest": "/js/$1"
+      "src": "/og.png",
+      "dest": "/og.png"
     },
     {
       "src": "/sitemap.xml",
@@ -38,20 +26,72 @@
       "dest": "/robots.txt"
     },
     {
-      "src": "/og.png",
-      "dest": "/og.png"
+      "src": "/css/(.*)",
+      "dest": "/css/$1"
     },
     {
-      "src": "/signup",
-      "dest": "/signup.html"
+      "src": "/js/(.*)",
+      "dest": "/js/$1"
     },
     {
-      "src": "/login",
-      "dest": "/login.html"
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
     },
     {
-      "src": "/app",
-      "dest": "/app.html"
+      "src": "/blog/real-estate-follow-up-email-templates",
+      "dest": "/blog/real-estate-follow-up-email-templates/index.html"
+    },
+    {
+      "src": "/blog/cold-email-templates-for-freelancers",
+      "dest": "/blog/cold-email-templates-for-freelancers/index.html"
+    },
+    {
+      "src": "/blog/professional-rejection-email-examples",
+      "dest": "/blog/professional-rejection-email-examples/index.html"
+    },
+    {
+      "src": "/blog/sales-follow-up-email-templates",
+      "dest": "/blog/sales-follow-up-email-templates/index.html"
+    },
+    {
+      "src": "/blog/hr-email-templates",
+      "dest": "/blog/hr-email-templates/index.html"
+    },
+    {
+      "src": "/blog/financial-advisor-email-templates",
+      "dest": "/blog/financial-advisor-email-templates/index.html"
+    },
+    {
+      "src": "/blog/legal-email-templates",
+      "dest": "/blog/legal-email-templates/index.html"
+    },
+    {
+      "src": "/blog/property-management-email-templates",
+      "dest": "/blog/property-management-email-templates/index.html"
+    },
+    {
+      "src": "/blog/medical-email-templates",
+      "dest": "/blog/medical-email-templates/index.html"
+    },
+    {
+      "src": "/blog/consultant-email-templates",
+      "dest": "/blog/consultant-email-templates/index.html"
+    },
+    {
+      "src": "/blog/coaching-email-templates",
+      "dest": "/blog/coaching-email-templates/index.html"
+    },
+    {
+      "src": "/blog/accountant-email-templates",
+      "dest": "/blog/accountant-email-templates/index.html"
+    },
+    {
+      "src": "/blog/personal-trainer-email-templates",
+      "dest": "/blog/personal-trainer-email-templates/index.html"
+    },
+    {
+      "src": "/blog",
+      "dest": "/blog/index.html"
     },
     {
       "src": "/real-estate-email-writer",
@@ -102,8 +142,16 @@
       "dest": "/personal-trainer-email-templates/index.html"
     },
     {
-      "src": "/blog",
-      "dest": "/blog/index.html"
+      "src": "/features",
+      "dest": "/features/index.html"
+    },
+    {
+      "src": "/best-ai-email-writer",
+      "dest": "/best-ai-email-writer/index.html"
+    },
+    {
+      "src": "/pricing",
+      "dest": "/pricing.html"
     },
     {
       "src": "/privacy",
@@ -114,68 +162,20 @@
       "dest": "/terms.html"
     },
     {
-      "src": "/features",
-      "dest": "/features/index.html"
+      "src": "/signup",
+      "dest": "/signup.html"
     },
     {
-      "src": "/pricing",
-      "dest": "/pricing.html"
+      "src": "/login",
+      "dest": "/login.html"
     },
     {
-      "src": "/best-ai-email-writer",
-      "dest": "/best-ai-email-writer/index.html"
+      "src": "/app",
+      "dest": "/app.html"
     },
     {
-      "src": "/blog/medical-email-templates",
-      "dest": "/blog/medical-email-templates/index.html"
-    },
-    {
-      "src": "/blog/consultant-email-templates",
-      "dest": "/blog/consultant-email-templates/index.html"
-    },
-    {
-      "src": "/blog/coaching-email-templates",
-      "dest": "/blog/coaching-email-templates/index.html"
-    },
-    {
-      "src": "/blog/accountant-email-templates",
-      "dest": "/blog/accountant-email-templates/index.html"
-    },
-    {
-      "src": "/blog/personal-trainer-email-templates",
-      "dest": "/blog/personal-trainer-email-templates/index.html"
-    },
-    {
-      "src": "/blog/legal-email-templates",
-      "dest": "/blog/legal-email-templates/index.html"
-    },
-    {
-      "src": "/blog/property-management-email-templates",
-      "dest": "/blog/property-management-email-templates/index.html"
-    },
-    {
-      "src": "/blog/hr-email-templates",
-      "dest": "/blog/hr-email-templates/index.html"
-    },
-    {
-      "src": "/blog/financial-advisor-email-templates",
-      "dest": "/blog/financial-advisor-email-templates/index.html"
-    },
-    {
-      "src": "/blog/real-estate-follow-up-email-templates",
-      "dest": "/blog/real-estate-follow-up-email-templates/index.html"
-    },
-    {
-      "src": "/blog/cold-email-templates-for-freelancers",
-      "dest": "/blog/cold-email-templates-for-freelancers/index.html"
-    },
-    {
-      "src": "/blog/professional-rejection-email-examples",
-      "dest": "/blog/professional-rejection-email-examples/index.html"
-    },
-    {
-      "src": "/blog/sales-follow-up-email-templates",
-      "dest": "/blog/sales-follow-up-email-templates/index.html"
+      "src": "/(.*\\.html)",
+      "dest": "/$1"
     },
     {
       "src": "/",
