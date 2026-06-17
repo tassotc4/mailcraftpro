@@ -194,6 +194,14 @@
       "dest": "/cookie-policy/index.html"
     },
     {
+      "src": "/acceptable-use",
+      "dest": "/acceptable-use/index.html"
+    },
+    {
+      "src": "/security",
+      "dest": "/security/index.html"
+    },
+    {
       "src": "/",
       "dest": "/index.html"
     }
