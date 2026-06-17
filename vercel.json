@@ -106,10 +106,6 @@
       "dest": "/blog/index.html"
     },
     {
-      "src": "/blog/(.*)",
-      "dest": "/blog/$1/index.html"
-    },
-    {
       "src": "/privacy",
       "dest": "/privacy.html"
     },
@@ -128,6 +124,58 @@
     {
       "src": "/best-ai-email-writer",
       "dest": "/best-ai-email-writer/index.html"
+    },
+    {
+      "src": "/blog/medical-email-templates",
+      "dest": "/blog/medical-email-templates/index.html"
+    },
+    {
+      "src": "/blog/consultant-email-templates",
+      "dest": "/blog/consultant-email-templates/index.html"
+    },
+    {
+      "src": "/blog/coaching-email-templates",
+      "dest": "/blog/coaching-email-templates/index.html"
+    },
+    {
+      "src": "/blog/accountant-email-templates",
+      "dest": "/blog/accountant-email-templates/index.html"
+    },
+    {
+      "src": "/blog/personal-trainer-email-templates",
+      "dest": "/blog/personal-trainer-email-templates/index.html"
+    },
+    {
+      "src": "/blog/legal-email-templates",
+      "dest": "/blog/legal-email-templates/index.html"
+    },
+    {
+      "src": "/blog/property-management-email-templates",
+      "dest": "/blog/property-management-email-templates/index.html"
+    },
+    {
+      "src": "/blog/hr-email-templates",
+      "dest": "/blog/hr-email-templates/index.html"
+    },
+    {
+      "src": "/blog/financial-advisor-email-templates",
+      "dest": "/blog/financial-advisor-email-templates/index.html"
+    },
+    {
+      "src": "/blog/real-estate-follow-up-email-templates",
+      "dest": "/blog/real-estate-follow-up-email-templates/index.html"
+    },
+    {
+      "src": "/blog/cold-email-templates-for-freelancers",
+      "dest": "/blog/cold-email-templates-for-freelancers/index.html"
+    },
+    {
+      "src": "/blog/professional-rejection-email-examples",
+      "dest": "/blog/professional-rejection-email-examples/index.html"
+    },
+    {
+      "src": "/blog/sales-follow-up-email-templates",
+      "dest": "/blog/sales-follow-up-email-templates/index.html"
     },
     {
       "src": "/",
