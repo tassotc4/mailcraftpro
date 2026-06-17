@@ -7,3 +7,5 @@ Disallow: /signup.html
 Disallow: /api/
 
 Sitemap: https://helpmewrite.email/sitemap.xml
+
+# Deployment trigger
