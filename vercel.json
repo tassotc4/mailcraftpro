@@ -178,6 +178,22 @@
       "dest": "/$1"
     },
     {
+      "src": "/about",
+      "dest": "/about/index.html"
+    },
+    {
+      "src": "/how-it-works",
+      "dest": "/how-it-works/index.html"
+    },
+    {
+      "src": "/use-cases",
+      "dest": "/use-cases/index.html"
+    },
+    {
+      "src": "/cookie-policy",
+      "dest": "/cookie-policy/index.html"
+    },
+    {
       "src": "/",
       "dest": "/index.html"
     }
